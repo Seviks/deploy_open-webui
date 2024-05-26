@@ -7,15 +7,16 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     environment:
       - 'OPENAI_API_KEY='
-      - 'WEBUI_NAME=LLM for BASS' 
+      - 'WEBUI_NAME=LLM for BASS'
       - 'RAG_EMBEDDING_ENGINE=openai'
-      - 'RAG_EMBEDDING_MODEL=text-embedding-3-large' 
+      - 'RAG_EMBEDDING_MODEL=text-embedding-3-large'
     ports:
       - "3000:8080"
     volumes:
       - open-webui:/app/backend/data
     networks:
       - isolated
+      - internet
 
   nginx:
     container_name: nginx
