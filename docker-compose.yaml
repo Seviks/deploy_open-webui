@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+
+  open-webui:
+    container_name: open-webui
+    restart: unless-stopped
+    image: ghcr.io/open-webui/open-webui:main
+    environment:
+      - 'OPENAI_API_KEY='
+      - 'WEBUI_NAME=LLM for BASS' 
+      - 'RAG_EMBEDDING_ENGINE=openai'
+      - 'RAG_EMBEDDING_MODEL=text-embedding-3-large' 
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    networks:
+      - isolated
+
+  nginx:
+    container_name: nginx
+    ports:
+      - "80:80"
+    image: nginx:latest
+    depends_on:
+      - open-webui
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - isolated
+      - internet
+
+networks:
+  isolated:
+    driver: bridge
+    internal: true
+  internet:
+    driver: bridge
+
+volumes:
+  open-webui: {}
