@@ -2,8 +2,6 @@ services:
 
   open-webui:
     container_name: open-webui
-    ports:
-      - "3000:8080"
     image: ghcr.io/open-webui/open-webui:main
     restart: unless-stopped
     environment:
@@ -19,8 +17,6 @@ services:
 
   pipelines:
     container_name: pipelines
-    ports:
-      - "9099:9099"
     image: ghcr.io/open-webui/pipelines:main
     depends_on:
       - open-webui
