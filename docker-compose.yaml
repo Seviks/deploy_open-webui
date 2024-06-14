@@ -3,17 +3,31 @@ services:
 
   open-webui:
     container_name: open-webui
-    restart: unless-stopped
+    ports:
+      - "3000:8080"
     image: ghcr.io/open-webui/open-webui:main
+    restart: unless-stopped
     environment:
       - 'OPENAI_API_KEY='
       - 'WEBUI_NAME=LLM for BASS'
       - 'RAG_EMBEDDING_ENGINE=openai'
-      - 'RAG_EMBEDDING_MODEL=text-embedding-3-large'
-    ports:
-      - "3000:8080"
+      - 'RAG_EMBEDDING_MODEL=text-embedding-3-small'
     volumes:
       - open-webui:/app/backend/data
+    networks:
+      - isolated
+      - internet
+
+  pipelines:
+    container_name: pipelines
+    ports:
+      - "9099:9099"
+    image: ghcr.io/open-webui/pipelines:main
+    depends_on:
+      - open-webui
+    restart: unless-stopped
+    volumes:
+      - pipelines:/app/pipelines
     networks:
       - isolated
       - internet
@@ -41,3 +55,4 @@ networks:
 
 volumes:
   open-webui: {}
+  pipelines: {}
