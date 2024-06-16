@@ -1,14 +1,35 @@
 services:
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama 
+    networks:
+      - isolated
+      - internet
+
   open-webui:
     container_name: open-webui
     image: ghcr.io/open-webui/open-webui:main
+    depends_on:
+      - ollama
     restart: unless-stopped
     environment:
+      - 'RAG_EMBEDDING_MODEL_AUTO_UPDATE=true'
+      - 'ENABLE_SIGNUP=false'
+      - 'WEBUI_AUTH=false'
+      - 'DEFAULT_MODELS=gpt-4o'
       - 'OPENAI_API_KEY='
       - 'WEBUI_NAME=LLM for BASS'
-      - 'RAG_EMBEDDING_ENGINE=openai'
-      - 'RAG_EMBEDDING_MODEL=text-embedding-3-small'
+      - 'ENABLE_RAG_HYBRID_SEARCH=true'
+      - 'RAG_EMBEDDING_ENGINE=ollama'
+      - 'RAG_EMBEDDING_MODEL=nomic-embed-text:latest'
+      - 'RAG_RERANKING_MODEL=mixedbread-ai/mxbai-rerank-base-v1'
+      - 'RAG_TOP_K=10'
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WHISPER_MODEL=small'
     volumes:
       - open-webui:/app/backend/data
     networks:
@@ -51,3 +72,4 @@ networks:
 volumes:
   open-webui: {}
   pipelines: {}
+  ollama: {}
