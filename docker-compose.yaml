@@ -3,6 +3,8 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
+    pull_policy: always
+    tty: true
     restart: unless-stopped
     volumes:
       - ollama:/root/.ollama 
