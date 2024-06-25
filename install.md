@@ -9,6 +9,9 @@ ufw allow http
 ufw allow https
 ufw enable
 
+ufw allow from 203.0.113.0/24
+
+
 # Install Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -24,7 +27,7 @@ nano nginx.conf
 
 ## Create ssl certificate
 docker compose up -d --force-recreate
-docker-compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d bassllm.ddns.net
+docker-compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run --agree-tos --no-eff-email -d bassllm.ddns.net
 docker-compose exec nginx nginx -s reload
 
 Renew certificate with:
