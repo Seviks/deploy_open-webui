@@ -15,18 +15,6 @@ services:
       - isolated
       - internet
 
-  pipelines:
-    container_name: pipelines
-    image: ghcr.io/open-webui/pipelines:main
-    depends_on:
-      - open-webui
-    restart: unless-stopped
-    volumes:
-      - pipelines:/app/pipelines
-    networks:
-      - isolated
-      - internet
-
   nginx:
     container_name: nginx
     ports:
