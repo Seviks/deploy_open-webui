@@ -5,6 +5,7 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     restart: unless-stopped
     environment:
+      - DEFAULT_MODELS=gpt-4o
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - WEBUI_NAME=${WEBUI_NAME}
       - RAG_EMBEDDING_ENGINE=openai
