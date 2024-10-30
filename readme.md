@@ -38,6 +38,10 @@ docker-compose run --rm certbot certonly --webroot --webroot-path /var/www/certb
 docker-compose exec nginx nginx -s reload
 ```
 
-Renew certificate with:
-`docker-compose run --rm certbot renew`
+
+## Update
+apt update && apt upgrad -y
+docker pull ghcr.io/open-webui/open-webui:main
+docker compose up -d --force-recreate
+docker image prune -a
 
