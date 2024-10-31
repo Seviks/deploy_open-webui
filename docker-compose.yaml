@@ -7,6 +7,8 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - WEBUI_NAME=${WEBUI_NAME}
+      - 'RAG_EMBEDDING_ENGINE=openai'
+      - 'RAG_EMBEDDING_MODEL=text-embedding-3-small'
     volumes:
       - open-webui:/app/backend/data
     networks:
